@@ -58,4 +58,6 @@ const AppendItens = async () => {
 
 window.onload = () => { 
   AppendItens();
+  getSkuFromProductItem();
+  createCartItemElement();
  };

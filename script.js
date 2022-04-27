@@ -1,5 +1,7 @@
 // const { fetchProducts } = require("./helpers/fetchProducts");
 
+// const { fetchItem } = require("./helpers/fetchItem");
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -14,7 +16,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -31,10 +33,10 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.remove();
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, thumbnail: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -42,22 +44,12 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const AppendItens = async () => {
+const AppendItens = async () => { // adiciona elementos da api a pagina
   const array = await fetchProducts('computador');
   const localItens = document.querySelector('.items');
-  array.results.forEach((item) => {
-    const { id, title, thumbnail } = item;
-    const obj = {
-      sku: id,
-      name: title,
-      image: thumbnail,
-    };
-     localItens.appendChild(createProductItemElement(obj));
-  });
+  array.results.forEach((item) => localItens.appendChild(createProductItemElement(item)));
 };  
 
 window.onload = () => { 
   AppendItens();
-  getSkuFromProductItem();
-  createCartItemElement();
  };

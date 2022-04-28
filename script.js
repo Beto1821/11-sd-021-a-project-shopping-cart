@@ -1,4 +1,10 @@
 const cart = document.querySelector('.cart__items');
+const clearCart = document.querySelector('.empty-cart');
+
+clearCart.addEventListener('click', () => {
+  cart.innerHTML = '';
+  saveCartItems(cart.innerHTML = '');
+});
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -15,7 +21,9 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
+  if (event.target !== 'cartItems') {
   event.target.remove();
+  }
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -30,7 +38,7 @@ const GetIdProduct = async (event) => { // adicona no carrinho
   const idProduct = await fetchItem(event.target.parentNode.firstChild.innerText);
   const { id, title, price } = idProduct;
   cart.appendChild(createCartItemElement({ id, title, price }));
-  saveCartItems(cart.innerHTML);
+  saveCartItems(cart.innerHTML); // adciona carrinho ao localstorage
 };
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -58,4 +66,5 @@ const AppendItens = async () => { // adiciona elementos da api a pagina
 window.onload = () => { 
   AppendItens();
   cart.innerHTML = getSavedCartItems('cartItems');
+  cart.addEventListener('click', cartItemClickListener);
  };

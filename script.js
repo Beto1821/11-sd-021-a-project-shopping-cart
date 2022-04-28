@@ -1,8 +1,4 @@
-// const { fetchProducts } = require("./helpers/fetchProducts");
-
-// const { fetchItem } = require("./helpers/fetchItem");
-
-// const { fetchItem } = require("./helpers/fetchItem");
+const cart = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -30,11 +26,11 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-const GetIdProduct = async (event) => {
+const GetIdProduct = async (event) => { // adicona no carrinho
   const idProduct = await fetchItem(event.target.parentNode.firstChild.innerText);
-  const cart = document.querySelector('.cart__items');
   const { id, title, price } = idProduct;
   cart.appendChild(createCartItemElement({ id, title, price }));
+  saveCartItems(cart.innerHTML);
 };
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -61,4 +57,5 @@ const AppendItens = async () => { // adiciona elementos da api a pagina
 
 window.onload = () => { 
   AppendItens();
+  cart.innerHTML = getSavedCartItems('cartItems');
  };

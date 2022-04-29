@@ -71,6 +71,8 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 const AppendItens = async () => { // adiciona elementos da api a pagina
   addLoad();
   const array = await fetchProducts('computador');
+  // array.results.forEach(() => addLoad());
+  // array.results.forEach(() => remLoad());
   array.results.forEach((item) => localItens.appendChild(createProductItemElement(item)));
   remLoad();
 };  

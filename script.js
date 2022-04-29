@@ -1,9 +1,10 @@
 const cart = document.querySelector('.cart__items');
 const clearCart = document.querySelector('.empty-cart');
+const localItens = document.querySelector('.items');
 
 clearCart.addEventListener('click', () => {
   cart.innerHTML = '';
-  saveCartItems(cart.innerHTML = '');
+  localStorage.clear();
 });
 
 function createProductImageElement(imageSource) {
@@ -53,14 +54,25 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
+ const remLoad = () => {
+   const MenLoad = document.querySelector('.loading');
+   localItens.removeChild(MenLoad);
+ };
+ const addLoad = () => {
+   const banner = document.createElement('p');
+  banner.className = 'loading';
+  banner.innerText = 'carregando...';
+  localItens.appendChild(banner);
+ };
 
 const AppendItens = async () => { // adiciona elementos da api a pagina
+  addLoad();
   const array = await fetchProducts('computador');
-  const localItens = document.querySelector('.items');
   array.results.forEach((item) => localItens.appendChild(createProductItemElement(item)));
+  remLoad();
 };  
 
 window.onload = () => { 

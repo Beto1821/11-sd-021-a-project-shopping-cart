@@ -7,18 +7,13 @@ display.className = 'total-price';
 display.innerText = 0;
 SessionCart.appendChild(display);
 
-//  const somaCar = () => {
+//  const somaCart = () => {
 //   const cartItems = cart.innerHTML;
-//   // console.log(cartItems);
-// //  const soma = document.querySelector('.total-price');
 //   if (cartItems === '') soma.innerText = 0;
-// //    const array = cartItems.match(/\$\d{1,8}(?:\.\d{1,2})/g); 
-//   // const array = cartItems.match(/\$\d{1,9}(?:\.\d{1,2})/g); // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Regular_Expressions#using_parenthesized_substring_matches
-//   const array = cartItems.split('$')[1];
-// console.log(array);
+//   const array = cartItems.match(/\$\d{1,9}(?:\.\d{1,2})/g); // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Regular_Expressions#using_parenthesized_substring_matches
+//   console.log(array);
 //   if (array) {
 //     const listaPrecos = array.join('').replaceAll('$', ' ').split(' ').splice(1);
-//   // console.log(listaPrecos);
 //   soma.innerText = listaPrecos.reduce((acc, item) => acc + parseFloat(item), 0).toFixed(2);
 //   }
 // };
@@ -27,6 +22,7 @@ const somaCart = () => {
   let total = 0;
   const allProducts = document.querySelectorAll('.cart__item');
   allProducts.forEach((produto) => {
+    console.log(produto);
     total += parseFloat(produto.innerHTML.split('$')[1]);
     display.innerHTML = total;
   });
@@ -83,23 +79,24 @@ const GetIdProduct = async (event) => { // adicona no carrinho
   somaCart();
 };
 
-function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image, price: salePrice }) {
   const section = document.createElement('section');
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
+  section.appendChild(createCustomElement('span', 'item__title', salePrice.toFixed(2)));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
   .addEventListener('click', GetIdProduct);
   return section;
- 
 }
 
  const remLoad = () => {
    const MenLoad = document.querySelector('.loading');
    localItens.removeChild(MenLoad);
  };
+
  const addLoad = () => {
    const banner = document.createElement('p');
   banner.className = 'loading';

@@ -25,7 +25,6 @@ SessionCart.appendChild(display);
 
 const somaCart = () => {
   let total = 0;
-//  const display = document.querySelector('.total-price');
   const allProducts = document.querySelectorAll('.cart__item');
   allProducts.forEach((produto) => {
     total += parseFloat(produto.innerHTML.split('$')[1]);
@@ -34,7 +33,6 @@ const somaCart = () => {
 };
 
 const subCart = (event) => {
-//  const display = document.querySelector('.total-price');
   let number = Number(display.innerText);
   number -= parseFloat(event.path[0].innerHTML.split('$')[1]);
   display.innerHTML = number;
@@ -44,7 +42,6 @@ const subCart = (event) => {
 clearCart.addEventListener('click', () => {
   cart.innerHTML = '';
   localStorage.clear();
-//  const display = document.querySelector('.total-price');
   display.innerText = 0;
 });
 
@@ -63,10 +60,10 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
+  subCart(event);
   if (event.target !== cart) {
   event.target.remove();
   saveCartItems(cart.innerHTML);
-  subCart(event);
   }
 }
 
@@ -82,7 +79,6 @@ const GetIdProduct = async (event) => { // adicona no carrinho
   const idProduct = await fetchItem(event.target.parentNode.firstChild.innerText);
   const { id, title, price } = idProduct;
   cart.appendChild(createCartItemElement({ id, title, price }));
-  // console.log(price);
   saveCartItems(cart.innerHTML); // adciona carrinho ao localstorage
   somaCart();
 };
@@ -97,11 +93,9 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
   .addEventListener('click', GetIdProduct);
   return section;
+ 
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
  const remLoad = () => {
    const MenLoad = document.querySelector('.loading');
    localItens.removeChild(MenLoad);
@@ -116,8 +110,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 const AppendItens = async () => { // adiciona elementos da api a pagina
   addLoad();
   const array = await fetchProducts('computador');
-  // array.results.forEach(() => addLoad());
-  // array.results.forEach(() => remLoad());
   array.results.forEach((item) => localItens.appendChild(createProductItemElement(item)));
   remLoad();
 };  

@@ -153,3 +153,8 @@ body {
   margin: 5px;
   border: 2px solid white;
 }
+
+.cart__items .item__image {
+  display: flex;
+  margin: 10px;
+}

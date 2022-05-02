@@ -10,7 +10,7 @@ SessionCart.appendChild(display);
 //  const somaCart = () => {
 //   const cartItems = cart.innerHTML;
 //   if (cartItems === '') soma.innerText = 0;
-//   const array = cartItems.match(/\$\d{1,9}(?:\.\d{1,2})/g); // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Regular_Expressions#using_parenthesized_substring_matches
+//   const array = cartItems.match(/\$\d{1,9}(?:\.\d{1,2})/g)|/\$\d{1,9}/g; // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Regular_Expressions#using_parenthesized_substring_matches
 //   console.log(array);
 //   if (array) {
 //     const listaPrecos = array.join('').replaceAll('$', ' ').split(' ').splice(1);
@@ -63,18 +63,19 @@ function cartItemClickListener(event) {
   }
 }
 
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice , thumbnail }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${(salePrice)}`;
+  li.appendChild(createProductImageElement(thumbnail));
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
 const GetIdProduct = async (event) => { // adicona no carrinho
   const idProduct = await fetchItem(event.target.parentNode.firstChild.innerText);
-  const { id, title, price } = idProduct;
-  cart.appendChild(createCartItemElement({ id, title, price }));
+  const { id, title, price, thumbnail } = idProduct;
+  cart.appendChild(createCartItemElement({ id, title, price, thumbnail }));
   saveCartItems(cart.innerHTML); // adciona carrinho ao localstorage
   somaCart();
 };

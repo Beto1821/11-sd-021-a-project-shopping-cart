@@ -47,7 +47,7 @@ function cartItemClickListener(event) {
   }
 }
 
-function createCartItemElement({ id: sku, title: name, price: salePrice , thumbnail }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice, thumbnail }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${(salePrice)}`;

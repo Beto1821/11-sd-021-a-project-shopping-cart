@@ -7,32 +7,16 @@ display.className = 'total-price';
 display.innerText = 0;
 SessionCart.appendChild(display);
 
-//  const somaCart = () => {
-//   const cartItems = cart.innerHTML;
-//   if (cartItems === '') soma.innerText = 0;
-//   const array = cartItems.match(/\$\d{1,9}(?:\.\d{1,2})/g)|/\$\d{1,9}/g; // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Regular_Expressions#using_parenthesized_substring_matches
-//   console.log(array);
-//   if (array) {
-//     const listaPrecos = array.join('').replaceAll('$', ' ').split(' ').splice(1);
-//   soma.innerText = listaPrecos.reduce((acc, item) => acc + parseFloat(item), 0).toFixed(2);
-//   }
-// };
-
 const somaCart = () => {
   let total = 0;
   const allProducts = document.querySelectorAll('.cart__item');
   allProducts.forEach((produto) => {
     console.log(produto);
     total += parseFloat(produto.innerHTML.split('$')[1]);
-    display.innerHTML = total;
   });
-};
-
-const subCart = (event) => {
-  let number = Number(display.innerText);
-  number -= parseFloat(event.path[0].innerHTML.split('$')[1]);
-  display.innerHTML = number;
-  somaCart();
+  
+  if (allProducts.length === 0) total = 0;
+  display.innerHTML = total;
 };
 
 clearCart.addEventListener('click', () => {
@@ -56,7 +40,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
-  subCart(event);
+  somaCart();
   if (event.target !== cart) {
   event.target.remove();
   saveCartItems(cart.innerHTML);
@@ -93,27 +77,16 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image, pric
   return section;
 }
 
- const remLoad = () => {
-   const MenLoad = document.querySelector('.loading');
-   localItens.removeChild(MenLoad);
- };
-
- const addLoad = () => {
-   const banner = document.createElement('p');
-  banner.className = 'loading';
-  banner.innerText = 'carregando...';
-  localItens.appendChild(banner);
- };
-
 const AppendItens = async () => { // adiciona elementos da api a pagina
-  addLoad();
+  const load = localItens.appendChild(createCustomElement('p', 'loading', 'carregando'));
   const array = await fetchProducts('computador');
   array.results.forEach((item) => localItens.appendChild(createProductItemElement(item)));
-  remLoad();
+  localItens.removeChild(load);
 };  
 
 window.onload = () => { 
   cart.innerHTML = getSavedCartItems('cartItems');
   AppendItens();
   cart.addEventListener('click', cartItemClickListener);
+  somaCart();
 };

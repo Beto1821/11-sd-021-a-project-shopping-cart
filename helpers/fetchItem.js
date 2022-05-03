@@ -8,7 +8,6 @@ const fetchItem = async (ItemID) => {
   return error;
 }
 };
-
 if (typeof module !== 'undefined') {
   module.exports = {
     fetchItem,

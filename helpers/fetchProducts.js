@@ -8,7 +8,6 @@ const fetchProducts = async (query) => {
     return error;
   }
 };
-
 if (typeof module !== 'undefined') {
   module.exports = {
     fetchProducts,
